@@ -1,25 +1,35 @@
 %%%% -*- Mode: Prolog -*-
-%%%% isregexp.pl
+%%%% is_regexp.pl
 
-is_regexp([star | [X]]):-
-    is_regexp(X).
+is_regexp([star | Xs]):-
+    length(Xs, Y),
+    !,
+    Y == 1,
+    is_regexp(Xs).
 
-is_regexp([plus | [X]]):-
-    is_regexp(X).
+is_regexp([plus | Xs]):-
+    length(Xs, Y),
+    !,
+    Y == 1,
+    is_regexp(Xs).
 
 is_regexp([or | Xs]):-
-
-   is_regexp(Xs).
+   	length(Xs, Y),
+	!,
+	Y >=2,
+	is_regexp(Xs). 
 
 is_regexp([seq | Xs]):-
+    	length(Xs, Y),
+	!,
+	Y >=2,
+	is_regexp(Xs). 
 
-    is_regexp(Xs).
 
 is_regexp([X|Xs]):-
     is_regexp(X),
     is_regexp(Xs),
     !.
-	
 
 is_regexp([]):- !.
 
