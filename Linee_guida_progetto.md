@@ -32,7 +32,7 @@ Predicati:
       Input deve essere una lista, altrimenti deve fallire.
   nfa_clear, nfa_clear(FA_Id)
       il primo cancella tutta la base di dati prolog, il secondo cancella solo l'automa DA_Id
-  -
+      
   nfa_delta/4
       come primo argomento ha FA_Id
   nfa_initial/2
@@ -40,12 +40,12 @@ Predicati:
       Lo stato iniziale ha uno o più nfa_delta, corrispondenti ai suoi collegamenti.
   nfa_final/2
       come primo argomento ha FA_Id
-  -
+
   nfa_list/0
       lista (elenca) tutte le conoscenze del database
   nfa_list/1
       lista (elenca) le conoscenze di un determinato FA_Id
-  -
+
   avere un predicato che associ ad ogni stato un identificatore unico, per farlo si può usare il predicato gensym/2.
   
 Considerazioni aggiuntive:
