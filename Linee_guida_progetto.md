@@ -59,4 +59,7 @@ Altri predicati:
   Avere un predicato che associ ad ogni stato un identificatore unico, per farlo si può usare il predicato gensym/2.
   
 Considerazioni aggiuntive:
-  Non sappiamo ancora da cosa sia composto l'alfabeto.
+  Non sappiamo ancora da cosa sia composto l'alfabeto. Per ora tutto ciò che è atomic.
+  L'automa può essere implementato sia con sia senza epsilon transazioni.
+  "?- is_regexp(X)" dovrebbe (forse) elencare tutte le espressioni regolari accettate, ma essendo infinite, genera errore.
+  Si può assumere che 'or'abbia sempre almeno due argomenti.
