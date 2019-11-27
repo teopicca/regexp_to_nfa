@@ -41,6 +41,16 @@ regexp_comp(FA_Id, star, Arg, QIn, QF) :-
     assert(nfa_delta(FA_Id, QF2, ε, QIn2)),
     assert(nfa_delta(FA_Id, QF2, ε, QF)).
 
+%% caso 'plus'
+regexp_comp(FA_Id, plus, Arg, QIn, QF) :-
+    caso_base(FA_Id, Arg, QIn2, QF2),
+    gensym(q, QIn),
+    gensym(q, QF),
+    regexp_comp(FA_Id, star, Arg, QIn3, QF3),
+    assert(nfa_delta(FA_Id, QIn, ε, QIn2)),
+    assert(nfa_delta(FA_Id, QF2, ε, QIn3)),
+    assert(nfa_delta(FA_Id, QF3, ε, QF)).
+
 %% Controlla se il caso base passato è un caso finale oppure un caso ricorsivo (or, star, plus seq)
 caso_base(FA_Id, Arg, QIn, QF) :-
     Arg =.. [Op | Args], 
