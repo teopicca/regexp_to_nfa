@@ -51,3 +51,5 @@ is_regexp(RE):-
     is_regexp(REList),
     !.
 
+
+%%TODO: implement is_regexp with functor/3 predicate
