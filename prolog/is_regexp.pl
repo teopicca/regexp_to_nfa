@@ -44,12 +44,13 @@ is_regexp(X):-
     atomic(X),
     !.
 
+is_regexp(X):-
+    compound(X),
+    functor(X, F, _),
+    not(operator(F)),
+    !.
+
 is_regexp(RE):-
-    functor(RE, F, _),
-    operator(F),
     RE =.. REList,
     is_regexp(REList),
     !.
-
-
-%%TODO: implement is_regexp with functor/3 predicate
