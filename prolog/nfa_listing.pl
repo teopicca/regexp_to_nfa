@@ -2,23 +2,6 @@
 :- discontiguous nfa_initial/2.
 :- discontiguous nfa_delta/4.
 
-nfa_initial(1, a).
-nfa_delta(1, a, a, a).
-nfa_delta(1, w, w, w).
-nfa_final(1, a).
-
-nfa_initial(2, a).
-nfa_delta(2, a, a, a).
-nfa_final(2, a).
-
-nfa_initial(3, a).
-nfa_delta(3, a, a, a).
-nfa_final(3, a).
-
-nfa_initial(4, a).
-nfa_delta(4, a, a, a).
-nfa_final(4, a).
-
 nfa_list :-
     findall( X, nfa_initial(X, _), L),
     nfa_list(L).
