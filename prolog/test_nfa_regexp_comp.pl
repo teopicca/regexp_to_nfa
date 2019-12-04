@@ -12,7 +12,6 @@ nfa_regexp_comp(FA_Id, RE):-
 regexp_comp(FA_Id, or, [ Arg | Args], QIn, QF):-
     atomic(Arg),
     regexp_comp(FA_Id, atomic, Arg),
-    
     regexp_comp(FA_Id, or, Args).
 
 %% caso ricorsivo 'or' 
@@ -50,6 +49,17 @@ regexp_comp(FA_Id, plus, Arg, QIn, QF) :-
     assert(nfa_delta(FA_Id, QIn, ε, QIn2)),
     assert(nfa_delta(FA_Id, QF2, ε, QIn3)),
     assert(nfa_delta(FA_Id, QF3, ε, QF)).
+
+%% caso 'seq'
+regexp_comp(Fa_Id, seq, Arg, QIn, QF) :-
+    caso_base(FA_Id, Arg, QIn2, QF2),
+    caso_base(FA_Id, Arg, QIn3, QF3),
+    gensym(q, QIn),
+    gensym(q, QF),
+    assert(nfa_delta(FA_Id, QIn, ε, QIn2)),
+    assert(nfa_delta(FA_Id, QF2, ε, QIn3)),
+    assert(nfa_delta(FA_Id, QF3, ε, QF)).  
+
 
 %% Controlla se il caso base passato è un caso finale oppure un caso ricorsivo (or, star, plus seq)
 caso_base(FA_Id, Arg, QIn, QF) :-
