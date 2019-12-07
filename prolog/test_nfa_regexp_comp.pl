@@ -71,6 +71,7 @@ regexp_comp_rec(FA_Id, seq, [Arg | Args], QIn, QF2) :-
 regexp_comp_rec(FA_Id, seq, [Arg], QIn, QF) :-
     scompatta(FA_Id, [Arg], QIn, QF).
 
+%% richiama il giusto predicato ricorsivo oppure finisce nel caso base
 scompatta(FA_Id, [Arg], QIn, QF) :-
     Arg =.. [Op | Args],
     regexp_comp(FA_Id, Op, Args, QIn, QF).
