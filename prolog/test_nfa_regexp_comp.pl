@@ -1,10 +1,6 @@
 %%%% -*- Mode: Prolog -*-
 %%%% test_nfa_regexp_comp.pl
 
-operator(or).
-operator(seq).
-operator(plus).
-operator(star).
 
 nfa_regexp_comp(FA_Id, RE):-
 %    is_regexp(RE),
@@ -23,6 +19,19 @@ nfa_regexp_comp(FA_Id, RE):-
     regexp_comp(FA_Id, OP, [A], QIn, QF),
     asserta(nfa_final(FA_Id, QF)),
     asserta(nfa_initial(FA_Id, QIn)).
+
+nfa_regexp_comp(FA_Id, RE):-
+%    is_regexp(RE),
+    nonvar(FA_Id),
+    compound(RE),
+    term_to_atom(Args, A),
+    regexp_comp(FA_Id, OP, [A], QIn, QF),
+    asserta(nfa_final(FA_Id, QF)),
+    asserta(nfa_initial(FA_Id, QIn)).
+
+
+
+
 
 %% caso ricorsivo 'or'
 regexp_comp(FA_Id, or, [Arg | Args], QIn, QF) :-
@@ -90,6 +99,13 @@ regexp_comp_rec(FA_Id, seq, [Arg], QIn, QF) :-
 scompatta(FA_Id, [Arg], QIn, QF) :-
     Arg =.. [Op | Args],
     regexp_comp(FA_Id, Op, Args, QIn, QF).
+
+
+
+
+    
+    
+
 
     
     
