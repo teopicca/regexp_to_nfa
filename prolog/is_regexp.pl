@@ -1,6 +1,7 @@
 %%%% -*- Mode: Prolog -*-
 %%%% is_regexp.pl
 
+    
 operator(star).
 operator(plus).
 operator(or).
@@ -46,8 +47,9 @@ is_regexp(X):-
 
 is_regexp(X):-
     compound(X),
+  % arg(_, X, _), TODO: riconoscere a()
     functor(X, F, _),
-    not(operator(F)),
+    \+ operator(F),
     !.
 
 is_regexp(RE):-
