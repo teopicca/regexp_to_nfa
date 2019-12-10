@@ -4,7 +4,7 @@
 nfa_regexp_comp(FA_Id, RE):-
     is_regexp(RE),
     nonvar(FA_Id),
-    not(nfa_initial(FA_Id, _)),
+    \+ nfa_initial(FA_Id, _),
     RE =.. [OP | Args],
     regexp_comp(FA_Id, OP, Args,QIn, QF),
     asserta(nfa_final(FA_Id, QF)),
