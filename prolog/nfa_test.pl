@@ -12,8 +12,8 @@ nfa_test_accept(FA_Id, [In | Ins], S):-
     nfa_test_accept(FA_Id, Ins, N),
     !.
 
-nfa_test_accept(FA_Id, [In | Ins], S):-
-    nfa_delta(FA_Id, S, ¦Å, N),
+nfa_test_accept(FA_Id, Ins, S):-
+    nfa_delta(FA_Id, S, epsilon, N),
     nfa_test_accept(FA_Id, Ins, N),
     !.
 
