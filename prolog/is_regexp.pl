@@ -8,6 +8,8 @@ operator(or).
 operator(seq).
 
 
+not_op(Goal) :- call(Goal), !, fail.
+not_op(_).
 
 is_regexp([star | Xs]):-
     length(Xs, Y),
@@ -49,7 +51,7 @@ is_regexp(X):-
     compound(X),
   % arg(_, X, _), TODO: riconoscere a()
     functor(X, F, _),
-    \+ operator(F),
+    not_op(operator(F)),
     !.
 
 is_regexp(RE):-
