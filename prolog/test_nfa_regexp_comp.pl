@@ -1,10 +1,13 @@
 %%%% -*- Mode: Prolog -*-
 %%%% test_nfa_regexp_comp.pl
 
+not_nfa(Goal) :- call(Goal), !, fail.
+not_nfa(_).
+
 nfa_regexp_comp(FA_Id, RE):-
     is_regexp(RE),
     nonvar(FA_Id),
-    \+ nfa_initial(FA_Id, _),
+    not_nfa(nfa_initial(FA_Id, _)),
     RE =.. [OP | Args],
     regexp_comp(FA_Id, OP, Args,QIn, QF),
     asserta(nfa_final(FA_Id, QF)),
