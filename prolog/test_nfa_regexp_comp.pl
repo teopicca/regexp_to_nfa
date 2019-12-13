@@ -1,15 +1,25 @@
 %%%% -*- Mode: Prolog -*-
 %%%% test_nfa_regexp_comp.pl
 
-not_nfa(Goal) :- call(Goal), !, fail.
+not_nfa(Goal) :-
+    call(Goal),
+    !,
+    fail.
+    
 not_nfa(_).
+
+not_atom(Arg) :-
+    atom(Arg),
+    !,
+    fail.
+
+not_atom(_).
 
 nfa_regexp_comp(FA_Id, RE):-
     is_regexp(RE),
     nonvar(FA_Id),
     not_nfa(nfa_initial(FA_Id, _)),
-    RE =.. [OP | Args],
-    regexp_comp(FA_Id, OP, Args,QIn, QF),
+    scompatta(FA_Id, [RE], QIn, QF),
     asserta(nfa_final(FA_Id, QF)),
     asserta(nfa_initial(FA_Id, QIn)).
 
@@ -89,7 +99,14 @@ regexp_comp_rec(FA_Id, seq, [Arg | Args], QIn, QF2) :-
 regexp_comp_rec(FA_Id, seq, [Arg], QIn, QF) :-
     scompatta(FA_Id, [Arg], QIn, QF).
 
-%% richiama il giusto predicato ricorsivo oppure finisce nel caso base
+%% scompatta l'input correttamente, il primo caso serve per la compound di arietà 0, il secondo per il resto
+
+scompatta(FA_Id, [Arg], QIn, QF) :-
+    not_atom(Arg),
+    compound_name_arity(Arg, _, Arity),
+    Arity = 0,
+    regexp_comp(FA_Id, Arg, [], QIn, QF).
+    
 scompatta(FA_Id, [Arg], QIn, QF) :-
     Arg =.. [Op | Args],
     regexp_comp(FA_Id, Op, Args, QIn, QF).
