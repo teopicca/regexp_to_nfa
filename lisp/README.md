@@ -12,7 +12,7 @@ The alfabet is made up of s-expression
     - (plus <re>) #Kleene plus
 ```
 
-# Pratical Examples
+# Practical Examples
 ```
 [1]> (load "nfa.lisp")
 ;; Loaded file nfa.lisp
