@@ -3,7 +3,7 @@
 NFA COMPILER allows you to compile a regular expression in to an nfa in Prolog.
 
 # Regexp Format
- The alfabet is all that satisfy compound/1 or atomic/1
+    The alfabet is all that satisfy compound/1 or atomic/1
     - <re1><re2> ... <rek> --> seq(<re1>, <re2>, ..., <rek>)
     - <re1>|<re2>| ... | <rek> --> or(<re1>, <re2>, ..., <rek>)
     - <re>* --> star(<re>)
