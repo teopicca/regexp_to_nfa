@@ -31,4 +31,6 @@ false.
 ?- is_regexp(RE). #True if RE is a regular expression
 ?- nfa_list. #list all nfa 
 ?- nfa_list(FA_Id). #list a specific nfa
+?- nfa_clear. # erase all nfa
+?- nfa_clear(FA_Id). erase a specific nfa
 ```
