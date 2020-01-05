@@ -12,7 +12,7 @@ The alfabet is all that satisfy compound/1 or atomic/1
     - plus(<re>) #Kleene plus
 ```
 
-# Pratical Examples
+# Practical Examples
 ```sh
 $ prolog nfa.pl
 ?- nfa_regexp_comp(nfa1, seq(a,b)). #compile regexp
