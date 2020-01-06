@@ -151,9 +151,25 @@
 
 ;;;nfa-test
 
+(defun nfa-depth (nfa)
+  (cond ((null nfa) 1)
+	((atom nfa) 0)
+	(T (max (+ (nfa-depth (car nfa)) 1)
+		(nfa-depth (rest nfa)))))
+  )
+
+(defun is-nfa (nfa)
+  (if (equalp (nfa-depth nfa) 3)
+      T
+    (progn
+      (print "not a valid nfa")
+      NIL)
+    ))
+
+
 (defun nfa-test (Automa Input)
 
-  (if (listp Input) 
+  (if (and (is-nfa Automa) (listp Input)) 
       (let ((QIn (first Automa))
 
 	    (Stati (second Automa))
@@ -161,7 +177,7 @@
 	    (QF (third Automa)))
 
 	(nodo-attuale QIn Stati QF Input))
-    (NIL)))
+    NIL))
 
 (defun nodo-attuale (QIn Automa QF Input)
 
