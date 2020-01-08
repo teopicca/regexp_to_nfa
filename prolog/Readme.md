@@ -2,7 +2,7 @@
 
 NFA COMPILER allows you to compile a regular expression in to an nfa that recognize it in Prolog.
 
-# Regexp Format
+# Regexp Notation
 The alfabet is all that satisfy compound/1 or atomic/1
 
  ```sh   
@@ -11,6 +11,51 @@ The alfabet is all that satisfy compound/1 or atomic/1
     - star(<re>) #Kleene star
     - plus(<re>) #Kleene plus
 ```
+
+# Predicates Documentation
+
+```sh
+?- is_regexp(RE).
+```
+Return true if RE is a regular expression. 
+For a RE that satisfy **compound/1** you can't use special regexp notation functors (seq, or, star, plus) as functor of compound terms.
+
+```sh
+?- nfa_regexp_comp(FA_Id, RE).
+```
+Return true if RE can be compiled into an e-nfa using **Tompson's costruction**. 
+FA_Id is an identifier that is associated with the regexp given as second argumet. 
+It has to be a prolog term without variable
+
+The structure of the e-nfa is made up of the following predicates:
+```
+nfa_initial(FA_Id, Qin)
+nfa_delta(Fa_Id, Q, transition, Q)
+nfa_final(FA_Id, Qf)
+```
+The whole automa structure is asserted in the prolog database.
+
+
+```sh
+?- nfa_test(FA_Id, Input).
+```
+Return true if RE is consumed in the e-nfa FA_id. 
+The input has to be a prolog list of Alphabet's symbols. 
+
+```sh
+?- nfa_list. 
+?- nfa_list(FA_Id).
+```
+- nfa_list/0: return all e-nfa asserted in the prolog database.
+- nfa_list/1: return a specific e-nfa 
+
+```sh
+?- nfa_clear. 
+?- nfa_clear(FA_Id).
+```
+- nfa_clear/0:  wipe all e-nfa from the prolog database
+- nfa_clear/1:  wipe a specific e-nfa.
+
 
 # Practical Examples
 ```sh
@@ -24,13 +69,4 @@ true.
 ?- nfa_test(nfa1, [a,c]).
 false.
 
-```
-
-# Other Predicates
-```sh
-?- is_regexp(RE). #True if RE is a regular expression
-?- nfa_list. #list all nfa 
-?- nfa_list(FA_Id). #list a specific nfa
-?- nfa_clear. # erase all nfa
-?- nfa_clear(FA_Id). erase a specific nfa
 ```
