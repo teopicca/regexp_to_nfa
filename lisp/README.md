@@ -40,7 +40,7 @@ If the regexp can't be compiled the function return NIL
 [3]> (nfa-test FA Input)
 ```
 Return true if the given input is consumed by the e-nfa FA, i.e it's in a final state Qf.
-The input format has to be expressed in **regexp notation**
+The input format has to be expressed as a list.
 
 
 # Practical Examples
