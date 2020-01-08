@@ -11,13 +11,15 @@ The alfabet is made up of s-expression
     - (star <re>) #Kleene star
     - (plus <re>) #Kleene plus
 ```
-# Documentation
+# Functions Documentation
+
 ```
 [1]> (is-regexp RE)
 ```
-Return true if RE is a regular expression. 
-Since the alphabet is the set of s-exp, you are not allowed to use **seq**, **or**, **star**, **plus** as first element.
 
+Return true if RE is a regular expression. 
+
+Since the alphabet is the set of s-exp, you are not allowed to use **seq**, **or**, **star**, **plus** as first element.
 
 
 ```
