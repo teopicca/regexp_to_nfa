@@ -1,11 +1,24 @@
 %%%% -*- Mode: Prolog -*-
 
 
-%%is regexp
+%%%% Progetto svolto da 3 studenti
+
+%%%% Piccapietra Matteo 845013
+
+%%%% Potertì Daniele 844892
+
+%%%% Ruocco Enzo Mattia 844875
+
+
+%%%% is_regexp
+
 
 operator(star).
+
 operator(plus).
+
 operator(or).
+
 operator(seq).
 
 not_op(Goal) :- call(Goal), !, fail.
@@ -73,7 +86,8 @@ not_atom(Arg) :-
 not_atom(_).
 
 
-%%nfa regexp comp
+%%%% nfa_regexp_comp
+
 
 nfa_regexp_comp(FA_Id, RE):-
     is_regexp(RE),
@@ -83,7 +97,10 @@ nfa_regexp_comp(FA_Id, RE):-
     asserta(nfa_final(FA_Id, QF)),
     asserta(nfa_initial(FA_Id, QIn)).
 
-%% caso ricorsivo 'or'
+
+%%%% caso ricorsivo 'or'
+
+
 regexp_comp(FA_Id, or, [Arg | Args], QIn, QF) :-
     Args \= [],
     regexp_comp(FA_Id, or, Args, QIn, QF),
@@ -92,7 +109,10 @@ regexp_comp(FA_Id, or, [Arg | Args], QIn, QF) :-
     asserta(nfa_delta(FA_Id, QF2, epsilon, QF)),
     !.
 
-%% caso base 'or'
+
+%%%% caso base 'or'
+
+
 regexp_comp(FA_Id, or, Arg, QIn, QF) :-
     scompatta(FA_Id, Arg, QIn2, QF2),
     gensym(q, QIn),
@@ -101,7 +121,10 @@ regexp_comp(FA_Id, or, Arg, QIn, QF) :-
     asserta(nfa_delta(FA_Id, QF2, epsilon, QF)),
     !.
 
-%% caso 'star'
+
+%%%% caso 'star'
+
+
 regexp_comp(FA_Id, star, Arg, QIn, QF) :-
     scompatta(FA_Id, Arg, QIn2, QF2),
     gensym(q, QIn),
@@ -112,8 +135,10 @@ regexp_comp(FA_Id, star, Arg, QIn, QF) :-
     asserta(nfa_delta(FA_Id, QF2, epsilon, QF)),
     !.
 
-%% caso 'plus' in questo caso vengono creati anche uno stato iniziale e
-%% uno finale
+
+%%%% caso 'plus'
+
+
 regexp_comp(FA_Id, plus, Arg, QIn, QF) :-
     scompatta(FA_Id, Arg, QIn2, QF2),
     gensym(q, QIn),
@@ -124,7 +149,9 @@ regexp_comp(FA_Id, plus, Arg, QIn, QF) :-
     asserta(nfa_delta(FA_Id, QF3, epsilon, QF)),
     !.
 
-%% caso iniziale 'seq'
+%%%% caso iniziale 'seq'
+
+
 regexp_comp(FA_Id, seq, Arg, QIn, QF) :-
     regexp_comp_rec(FA_Id, seq, Arg, QIn2, QF2),
     gensym(q, QIn),
@@ -133,7 +160,10 @@ regexp_comp(FA_Id, seq, Arg, QIn, QF) :-
     assert(nfa_delta(FA_Id, QF2, epsilon, QF)),
     !.
 
-%%  caso base
+
+%%%% caso base
+
+
 regexp_comp(FA_Id, Op, [], QIn, QF) :-
     gensym(q, QIn),
     gensym(q, QF),
@@ -148,19 +178,21 @@ regexp_comp(FA_Id, X, Xs, QIn, QF) :-
     !.
 
 
-%% caso ricorsivo 'seq'
+%%%% caso ricorsivo 'seq'
+
+
 regexp_comp_rec(FA_Id, seq, [Arg | Args], QIn, QF2) :-
     Args \= [],
     scompatta(FA_Id, [Arg], QIn, QF3),
     regexp_comp_rec(FA_Id, seq, Args, QIn2, QF2),
     assert(nfa_delta(FA_Id, QF3, epsilon, QIn2)).
 
-%%  caso base 'seq'
+
+%%%% caso base 'seq'
+
+
 regexp_comp_rec(FA_Id, seq, [Arg], QIn, QF) :-
     scompatta(FA_Id, [Arg], QIn, QF).
-
-%% scompatta l'input correttamente,
-%% il primo caso serve per la compound di arietÃ  0, il secondo per il resto
 
 scompatta(FA_Id, [Arg], QIn, QF) :-
     not_atom(Arg),
@@ -172,10 +204,13 @@ scompatta(FA_Id, [Arg], QIn, QF) :-
     Arg =.. [Op | Args],
     regexp_comp(FA_Id, Op, Args, QIn, QF).
 
-%% nfa test
-nfa_test(FA_Id, In):-
+
+%%%% nfa_test
+
+
+nfa_test(FA_Id, Input):-
     nfa_initial(FA_Id, S),
-    nfa_test_accept(FA_Id, In, S).
+    nfa_test_accept(FA_Id, Input, S).
 
 nfa_test_accept(FA_Id, [], Q):-
     nfa_final(FA_Id, Q),
@@ -191,7 +226,9 @@ nfa_test_accept(FA_Id, Ins, S):-
     nfa_test_accept(FA_Id, Ins, N),
     !.
 
-%%%nfa listing
+
+%%%% nfa_list
+
 
 :- discontiguous nfa_final/2.
 :- discontiguous nfa_initial/2.
@@ -221,7 +258,10 @@ write_nfa(X) :-
 	listing(nfa_final(X, _)),
 	nl.
 
-%%nfa clear
+
+%%%% nfa_clear
+
+
 :- dynamic nfa_initial/2.
 :- dynamic nfa_final/2.
 :- dynamic nfa_delta/4.
