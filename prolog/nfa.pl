@@ -284,9 +284,9 @@ nfa_clear([X | Xs]):-
     nfa_clear(Xs),
     !.
 
-nfa_clear(X) :-
-    nfa_initial(X, _),
-    erase_nfa(X),!.
+nfa_clear(FA_id) :-
+    nfa_initial(FA_id, _),
+    erase_nfa(FA_id),!.
 
 erase_nfa(X) :-
 	retract(nfa_initial(X, _)),
