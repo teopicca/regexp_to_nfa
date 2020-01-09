@@ -21,52 +21,56 @@ operator(or).
 
 operator(seq).
 
-not_op(Goal) :- call(Goal), !, fail.
+not_op(Goal) :-
+    call(Goal),
+    !,
+    fail.
 
 not_op(_).
 
-is_regexp([star | Xs]):-
+is_regexp([star | Xs]) :-
     length(Xs, Y),
     !,
     Y == 1,
     is_regexp(Xs).
 
-is_regexp([plus | Xs]):-
+is_regexp([plus | Xs]) :-
     length(Xs, Y),
     !,
     Y == 1,
     is_regexp(Xs).
 
-is_regexp([or | Xs]):-
+is_regexp([or | Xs]) :-
     length(Xs, Y),
     !,
-    Y >=2,
+    Y >= 2,
     is_regexp(Xs).
 
-is_regexp([seq | Xs]):-
+is_regexp([seq | Xs]) :-
     length(Xs, Y),
     !,
-    Y >=2,
+    Y >= 2,
     is_regexp(Xs).
 
-is_regexp([X|Xs]):-
+is_regexp([X|Xs]) :-
     is_regexp(X),
     is_regexp(Xs),
     !.
 
-is_regexp([]):- !.
+is_regexp([]):-
+    !.
 
-is_regexp(X):-
+is_regexp(X) :-
     atomic(X),
     !.
 
-is_regexp(X):-
+is_regexp(X) :-
     compound(X),
     compound_name_arity(X, F, _),
     not_op(operator(F)),
     !.
 
-is_regexp(RE):-
+is_regexp(RE) :-
     RE =.. REList,
     is_regexp(REList),
     !.
@@ -89,7 +93,7 @@ not_atom(_).
 %%%% nfa_regexp_comp
 
 
-nfa_regexp_comp(FA_Id, RE):-
+nfa_regexp_comp(FA_Id, RE) :-
     is_regexp(RE),
     nonvar(FA_Id),
     not_nfa(nfa_initial(FA_Id, _)),
@@ -208,20 +212,20 @@ scompatta(FA_Id, [Arg], QIn, QF) :-
 %%%% nfa_test
 
 
-nfa_test(FA_Id, Input):-
+nfa_test(FA_Id, Input) :-
     nfa_initial(FA_Id, S),
     nfa_test_accept(FA_Id, Input, S).
 
-nfa_test_accept(FA_Id, [], Q):-
+nfa_test_accept(FA_Id, [], Q) :-
     nfa_final(FA_Id, Q),
     !.
 
-nfa_test_accept(FA_Id, [In | Ins], S):-
+nfa_test_accept(FA_Id, [In | Ins], S) :-
     nfa_delta(FA_Id, S, In, N),
     nfa_test_accept(FA_Id, Ins, N),
     !.
 
-nfa_test_accept(FA_Id, Ins, S):-
+nfa_test_accept(FA_Id, Ins, S) :-
     nfa_delta(FA_Id, S, epsilon, N),
     nfa_test_accept(FA_Id, Ins, N),
     !.
@@ -242,14 +246,15 @@ nfa_list([]) :-
     nl,
     !.
 
-nfa_list([X | Xs]):-
+nfa_list([X | Xs]) :-
     write_nfa(X),
     nfa_list(Xs),
     !.
 
 nfa_list(X) :-
     nfa_initial(X, _),
-    write_nfa(X),!.
+    write_nfa(X),
+    !.
 
 write_nfa(X) :-
 	nl,
@@ -267,7 +272,7 @@ write_nfa(X) :-
 :- dynamic nfa_delta/4.
 
 nfa_clear :-
-    findall( X, nfa_initial(X, _), L),
+    findall(X, nfa_initial(X, _), L),
     nfa_clear(L).
 
 nfa_clear([]) :-
