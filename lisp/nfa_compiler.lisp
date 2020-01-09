@@ -6,10 +6,18 @@
   (format t "key: ~S , value: ~S~%" key value)) 
 
 (defun nfa-compiler (RE)
-  (print "choose a name for your e-nfa")
-  (setq name (read))
-  (setf (gethash name nfa-hash) (nfa-regexp-comp RE))
-  )
+  (setq exist 0)
+  (loop
+   (print "choose a name for your e-nfa")
+   (setq name (read))
+   (if (null (find-nfa name))
+       (progn
+	 (setf (gethash name nfa-hash) (nfa-regexp-comp RE))
+	 (setq exist 1)
+	 ))
+     
+   (when (> exist 0) (return exist))
+  ))
 
 
 (defun nfa-listing ()
@@ -30,17 +38,8 @@
 	   )
   )
 
-(defun find_automata (query key value)
-  (if (eq query key)
-	(return-from find_automata (format t " RESULT: ~S" value))
-	
-    )
-  )
-
 (defun find-nfa (query)
-  (loop for i being the hash-keys of nfa-hash using (hash-value val)
-	nconc (find_automata query i val))
-  
+  (gethash query nfa-hash)
   )
 
 
