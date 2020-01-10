@@ -19,7 +19,9 @@ The alfabet is made up of s-expression
 
 Return true if RE is a regular expression. 
 
-Since the alphabet is the set of s-exp, you are not allowed to use **seq**, **or**, **star**, **plus** as first element.
+Notice if you use **STAR** or **PLUS** in a RE you must use only one argument, to respect the arity of these operands.
+
+Notice if you use **OR** or **SEQ** in a RE you must use only 2+ arguments, to respect the arity of these operands.
 
 
 ```
@@ -30,7 +32,7 @@ The e-nfa has the following structure:
 ```
 ( Qin ((Q transition Q) ... )) Qf) 
 ```
-Qin ... Qf are created using gensym [http://clhs.lisp.se/Body/f_gensym.htm]
+Qin ... Qf are created using gensym 
 
 If the regexp can't be compiled the function return NIL
 
