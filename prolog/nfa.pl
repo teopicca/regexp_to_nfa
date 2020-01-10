@@ -10,7 +10,7 @@
 %%%% Ruocco Enzo Mattia 844875
 
 
-%%%% is_regexp
+%% is_regexp
 
 
 operator(star).
@@ -52,12 +52,12 @@ is_regexp([seq | Xs]) :-
     Y >= 2,
     is_regexp(Xs).
 
-is_regexp([X|Xs]) :-
+is_regexp([X | Xs]) :-
     is_regexp(X),
     is_regexp(Xs),
     !.
 
-is_regexp([]):-
+is_regexp([]) :-
     !.
 
 is_regexp(X) :-
@@ -90,7 +90,7 @@ not_atom(Arg) :-
 not_atom(_).
 
 
-%%%% nfa_regexp_comp
+%% nfa_regexp_comp
 
 
 nfa_regexp_comp(FA_Id, RE) :-
@@ -102,7 +102,7 @@ nfa_regexp_comp(FA_Id, RE) :-
     asserta(nfa_initial(FA_Id, QIn)).
 
 
-%%%% caso ricorsivo 'or'
+%% caso ricorsivo 'or'
 
 
 regexp_comp(FA_Id, or, [Arg | Args], QIn, QF) :-
@@ -114,7 +114,7 @@ regexp_comp(FA_Id, or, [Arg | Args], QIn, QF) :-
     !.
 
 
-%%%% caso base 'or'
+%% caso base 'or'
 
 
 regexp_comp(FA_Id, or, Arg, QIn, QF) :-
@@ -126,7 +126,7 @@ regexp_comp(FA_Id, or, Arg, QIn, QF) :-
     !.
 
 
-%%%% caso 'star'
+%% caso 'star'
 
 
 regexp_comp(FA_Id, star, Arg, QIn, QF) :-
@@ -140,7 +140,7 @@ regexp_comp(FA_Id, star, Arg, QIn, QF) :-
     !.
 
 
-%%%% caso 'plus'
+%% caso 'plus'
 
 
 regexp_comp(FA_Id, plus, Arg, QIn, QF) :-
@@ -153,7 +153,8 @@ regexp_comp(FA_Id, plus, Arg, QIn, QF) :-
     asserta(nfa_delta(FA_Id, QF3, epsilon, QF)),
     !.
 
-%%%% caso iniziale 'seq'
+
+%% caso iniziale 'seq'
 
 
 regexp_comp(FA_Id, seq, Arg, QIn, QF) :-
@@ -165,7 +166,7 @@ regexp_comp(FA_Id, seq, Arg, QIn, QF) :-
     !.
 
 
-%%%% caso base
+%% caso base
 
 
 regexp_comp(FA_Id, Op, [], QIn, QF) :-
@@ -182,7 +183,7 @@ regexp_comp(FA_Id, X, Xs, QIn, QF) :-
     !.
 
 
-%%%% caso ricorsivo 'seq'
+%% caso ricorsivo 'seq'
 
 
 regexp_comp_rec(FA_Id, seq, [Arg | Args], QIn, QF2) :-
@@ -192,7 +193,7 @@ regexp_comp_rec(FA_Id, seq, [Arg | Args], QIn, QF2) :-
     assert(nfa_delta(FA_Id, QF3, epsilon, QIn2)).
 
 
-%%%% caso base 'seq'
+%% caso base 'seq'
 
 
 regexp_comp_rec(FA_Id, seq, [Arg], QIn, QF) :-
@@ -209,7 +210,7 @@ scompatta(FA_Id, [Arg], QIn, QF) :-
     regexp_comp(FA_Id, Op, Args, QIn, QF).
 
 
-%%%% nfa_test
+%% nfa_test
 
 
 nfa_test(FA_Id, Input) :-
@@ -231,15 +232,17 @@ nfa_test_accept(FA_Id, Ins, S) :-
     !.
 
 
-%%%% nfa_list
+%% nfa_list
 
 
 :- discontiguous nfa_final/2.
+
 :- discontiguous nfa_initial/2.
+
 :- discontiguous nfa_delta/4.
 
 nfa_list :-
-    findall( X, nfa_initial(X, _), L),
+    findall(X, nfa_initial(X, _), L),
     nfa_list(L).
 
 nfa_list([]) :-
@@ -257,18 +260,20 @@ nfa_list(X) :-
     !.
 
 write_nfa(X) :-
-	nl,
-	listing(nfa_initial(X, _)),
-	listing(nfa_delta(X, _, _, _)),
-	listing(nfa_final(X, _)),
-	nl.
+    nl,
+    listing(nfa_initial(X, _)),
+    listing(nfa_delta(X, _, _, _)),
+    listing(nfa_final(X, _)),
+    nl.
 
 
-%%%% nfa_clear
+%% nfa_clear
 
 
 :- dynamic nfa_initial/2.
+
 :- dynamic nfa_final/2.
+
 :- dynamic nfa_delta/4.
 
 nfa_clear :-
@@ -279,16 +284,17 @@ nfa_clear([]) :-
     nl,
     !.
 
-nfa_clear([X | Xs]):-
+nfa_clear([X | Xs]) :-
     erase_nfa(X),
     nfa_clear(Xs),
     !.
 
 nfa_clear(FA_id) :-
     nfa_initial(FA_id, _),
-    erase_nfa(FA_id),!.
+    erase_nfa(FA_id),
+    !.
 
 erase_nfa(X) :-
-	retract(nfa_initial(X, _)),
-	retract(nfa_delta(X, _, _, _)),
-	retract(nfa_final(X, _)).
+    retract(nfa_initial(X, _)),
+    retract(nfa_delta(X, _, _, _)),
+    retract(nfa_final(X, _)).
