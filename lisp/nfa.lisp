@@ -10,9 +10,6 @@
 ;;;; Ruocco Enzo Mattia 844875
 
 
-;;;; nfa.lisp
-
-
 (defun is-regexp (RE)
   (if (atom RE)
       T
@@ -49,14 +46,15 @@
       T)))
 
 
-;;;; nfa-regexp-comp
+;; nfa-regexp-comp
 
 
 (defun nfa-regexp-comp (RE)
   (if (is-regexp RE)             
       (let ((Regexp (scompatta RE)))
         (list (get-qiniziale Regexp)
-              Regexp (get-qfinale Regexp)))
+              Regexp
+              (get-qfinale Regexp)))
     NIL))
 
 
@@ -77,7 +75,7 @@
           (let ((QIn (gensym))
                 (QF (gensym))
                 (Regexp (regexp_comp_seq (cdr RE))))
-            (append (list (list QIn 'epsilon  (car (car Regexp))))
+            (append (list (list QIn 'epsilon (car (car Regexp))))
                     Regexp
                     (list
                      (list (third (car (last Regexp))) 'epsilon QF))))
@@ -162,7 +160,7 @@
     RE))
 
 
-;;;; nfa-test
+;; nfa-test
 
 
 (defun nfa-depth (nfa)
@@ -194,7 +192,6 @@
       T
     (let ((stati-epsilon (passi-trovati-epsilon QIn Automa))
           (stati (passi-trovati-lettura QIn (first Input) Automa)))
-      
       (if (equal (prova-stati stati-epsilon Automa QF Input) T)
           T
         (if (equal (prova-stati stati Automa QF (cdr Input)) T)
