@@ -20,6 +20,7 @@ The alfabet is all that satisfy compound/1 or atomic/1
 Return true if RE is a regular expression. 
 
 Notice if you use **STAR** or **PLUS** in a RE you must use only one argument, to respect the arity of these operands.
+
 Notice if you use **OR** or **SEQ** in a RE you must use only 2+ arguments, to respect the arity of these operands.
 
 
