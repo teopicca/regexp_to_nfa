@@ -18,7 +18,10 @@ The alfabet is all that satisfy compound/1 or atomic/1
 ?- is_regexp(RE).
 ```
 Return true if RE is a regular expression. 
-For a RE that satisfy **compound/1** you can't use special regexp notation functors (seq, or, star, plus) as functor of compound terms.
+
+Notice if you use **STAR** or **PLUS** in a RE you must use only one argument, to respect the arity of these operands.
+Notice if you use **OR** or **SEQ** in a RE you must use only 2+ arguments, to respect the arity of these operands.
+
 
 ```sh
 ?- nfa_regexp_comp(FA_Id, RE).
